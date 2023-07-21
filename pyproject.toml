@@ -1,5 +1,16 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name="flaskdemo"
+version="0.0.1"
+authors=[
+    { name="seanpden", email="seanden522@gmail.com" },
+]
+description="Application to test Flask, MVC Architecture, and PWAs"
+readme="README.md"
+requires-python=">=3.11"
 dependencies=[
     "Flask==2.3.2",
     "SQLAlchemy==2.0.19"
