@@ -1,0 +1,7 @@
+[project]
+name="flaskdemo"
+dependencies=[
+    "Flask==2.3.2",
+    "SQLAlchemy==2.0.19"
+]
+

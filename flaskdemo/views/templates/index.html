@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <link
+      rel="manifest"
+      href="{{ url_for('static', filename='manifest.json')}}"
+    />
+    <link
+      rel="icon"
+      href="{{url_for('static', filename='icons/icon-192x192.png')}}"
+    />
+    <link
+      rel="icon"
+      href="{{url_for('static', filename='icons/icon-512x512.png')}}"
+    />
+    <title>Task Tracker</title>
+  </head>
+
+  <body>
+    <script>
+      // Does "serviceWorker" exist
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("sw.js").then(
+          (registration) => {
+            console.log(
+              "Service worker registration successful:",
+              registration
+            );
+          },
+          (error) => {
+            console.error(`Service worker registration failed: ${error}`);
+          }
+        );
+      } else {
+        console.error("Service workers are not supported.");
+      }
+    </script>
+
+    <!-- Form for adding a task -->
+    <form action="/add" method="post">
+      <fieldset>
+        <legend>Enter the task</legend>
+        <p>
+          <label>Title</label>
+          <input
+            type="text"
+            id="task_title"
+            name="task_title"
+            placeholder="Enter task..."
+          />
+        </p>
+        <p>
+          <label for="assignee">Assignee</label>
+          <input
+            type="text"
+            id="assignee"
+            name="assignee"
+            placeholder="Enter assignee..."
+          />
+        </p>
+        <button type="submit">Submit</button>
+      </fieldset>
+    </form>
+
+    <!-- Section for incomplete tasks -->
+    <h3>Todo...</h3>
+    <table>
+      <tr>
+        <th>Title</th>
+        <th>Company</th>
+        <th>Complete</th>
+        <th>Update?</th>
+        <th>Delete?</th>
+      </tr>
+      {% for datapoint in incomplete %}
+      <tr>
+        <td class="c1">{{ datapoint.title }}</td>
+        <td class="c2">{{ datapoint.assignee }}</td>
+        <td class="c3">
+          <button
+            name="btncomplete"
+            onclick="location.href='/update/{{ datapoint.id }}'"
+          >
+            ❌
+          </button>
+        </td>
+
+        <td class="c4">
+          <button
+            name="btnupdate"
+            onclick="location.href='/edit_red/{{ datapoint.id }}'"
+          >
+            ...
+          </button>
+        </td>
+        <td class="c5">
+          <button
+            name="btndelete"
+            onclick="location.href='/delete/{{ datapoint.id }}'"
+          >
+            Delete
+          </button>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    <!-- Section for complete tasks -->
+    <hr />
+    <h3>Done!</h3>
+    <table>
+      <tr>
+        <th>Title</th>
+        <th>Company</th>
+        <th>Complete</th>
+        <th>Update?</th>
+        <th>Delete?</th>
+      </tr>
+      {% for datapoint in complete %}
+      <tr>
+        <td class="c1">{{ datapoint.title }}</td>
+        <td class="c2">{{ datapoint.assignee }}</td>
+        <td class="c3">
+          <button
+            name="btncomplete"
+            onclick="location.href='/update/{{ datapoint.id }}'"
+          >
+            ✔️
+          </button>
+        </td>
+
+        <td class="c4">
+          <button
+            name="btnupdate"
+            onclick="location.href='/edit_red/{{ datapoint.id }}'"
+          >
+            ...
+          </button>
+        </td>
+        <td class="c5">
+          <button
+            name="btndelete"
+            onclick="location.href='/delete/{{ datapoint.id }}'"
+          >
+            Delete
+          </button>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </body>
+</html>

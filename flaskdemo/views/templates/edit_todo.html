@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <link
+      rel="manifest"
+      href="{{ url_for('static', filename='manifest.json')}}"
+    />
+    <link
+      rel="icon"
+      href="{{url_for('static', filename='icons/icon-192x192.png')}}"
+    />
+    <link
+      rel="icon"
+      href="{{url_for('static', filename='icons/icon-512x512.png')}}"
+    />
+    <title>Task Tracker</title>
+  </head>
+
+  <body>
+    <script>
+      // Does "serviceWorker" exist
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("sw.js").then(
+          (registration) => {
+            console.log(
+              "Service worker registration successful:",
+              registration
+            );
+          },
+          (error) => {
+            console.error(`Service worker registration failed: ${error}`);
+          }
+        );
+      } else {
+        console.error("Service workers are not supported.");
+      }
+    </script>
+
+     <form action="/edit/{{ todo.id }}" method="post">
+      <fieldset>
+        <legend>Update Todo(id={{ todo.id }})</legend>
+        <p>
+          <label>Title</label>
+          <input
+            type="text"
+            id="task_title"
+            name="task_title"
+            placeholder="{{ todo.title }}"
+          />
+        </p>
+        <p>
+          <label for="assignee">Assignee</label>
+          <input
+            type="text"
+            id="assignee"
+            name="assignee"
+            placeholder="{{ todo.assignee }}"
+          />
+        </p>
+        <button type="submit">Submit</button>
+        <button type="button" onclick="location.href='/'">Cancel</button>
+      </fieldset>
+    </form>
+
+
+
+</html>
